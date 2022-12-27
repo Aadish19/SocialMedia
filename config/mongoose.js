@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/codeial_development');
+mongoose.connect('mongodb://localhost/codeial_social_development');
 
 const db = mongoose.connection;
 
@@ -11,5 +11,5 @@ db.once('open', function(){
     console.log('Connected to Database :: MongoDB');
 });
 
-
+mongoose.set('strictQuery', true);
 module.exports = db;

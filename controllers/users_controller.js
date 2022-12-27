@@ -42,12 +42,39 @@ module.exports.create = function(req,res){
                 return res.redirect('/users/sign-in')
             })
         }else{ //if user is already present
-            return res.redirect('back')
+            return res.redirect('back') 
         }
     })
 }
 
 //get the sign in data
 module.exports.createSession = function(req,res){
-    //TODO Later
-}
+     
+    //Steps to authenticate
+
+    //find the user
+    User.findOne({email:req.body.email},function(err,user){
+        if(err){
+            console.log("Error in finding user in signing in ",err); 
+            return;
+        }
+
+        //handle User found
+        if(user){
+
+            //handle password which don't mach
+            if(user.password != req.body.password){
+                return res.resirect('back')
+            }
+
+            //handle session creation
+            res.cookie('user_id',user.id);
+            return res.redirect('/users/profile')
+
+        }else{
+
+            //handle user not found
+            return res.redirect('back')
+        }
+    })
+}  
